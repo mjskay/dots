@@ -38,6 +38,17 @@ outer_function = copy_dots(inner_function, function(y = "new_y_default", ...) {
 })
 ```
 
+The definition of `outer_function()` will now look something like this
+(exception that you don't have to type it!):
+
+```r
+outer_function = function(y = "new_y_default", ..., x, z = "z_default") {
+  (function (y = "new_y_default", ...) {
+    inner_function(y = y, ...)
+  })(y = y, ..., x = x, z = z)
+}
+```
+
 Do note that this is an ugly hack! Think hard before using something like this
 in practice. Hopefully one day the R help system and/or R IDEs will provide a
 better solution to this problem.
