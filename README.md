@@ -2,10 +2,11 @@
 
 _Matthew Kay, Northwestern University, <mjskay@northwestern.edu>_
 
-This is an R package defining a single function, `copy_dots()`, which is an
-experiment in improving R package documentation. If you want to use it, the
-most sensible plan is probably to just copy the `copy_dots()` function
-into your package (see [R/copy_dots.R](R/copy_dots.R)).
+This is an R package defining two functions, `copy_dots()` and `merge_dots()`,
+which is an experiment in improving R package documentation. If you want to use it, the
+most sensible plan is probably to just copy either the `copy_dots()` function
+([R/copy_dots.R](R/copy_dots.R)) or `merge_dots()` function ([R/merge_dots.R](R/merge_dots.R))
+into your package.
 
 The idea is that we often write functions in packages like this:
 
@@ -46,6 +47,25 @@ outer_function = function(y = "new_y_default", ..., x, z = "z_default") {
   (function (y = "new_y_default", ...) {
     inner_function(y = y, ...)
   })(y = y, ..., x = x, z = z)
+}
+```
+
+`merge_dots()` takes a slightly different approach, and tries to rewrite the
+passed function (instead of wrapping it) by merging the copied arguments into
+any functions calls using the source functions. You use it the same way as
+`copy_dots()`:
+
+```r
+outer_function = merge_dots(inner_function, function(y = "new_y_default", ...) {
+  inner_function(y = y, ...)
+})
+```
+
+But it generates a function definition that looks like this:
+
+```r
+outer_function = function(y = "new_y_default", ..., x, z = "z_default") {
+  inner_function(y = y, ..., x = x, z = z)
 }
 ```
 

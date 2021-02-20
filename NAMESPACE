@@ -2,4 +2,5 @@
 
 export(copy_dots)
 export(inner_function)
+export(merge_dots)
 export(outer_function)
